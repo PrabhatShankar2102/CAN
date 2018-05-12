@@ -1,0 +1,46 @@
+Design Choices:
+
+I have used Java RMI for this assignment.
+
+I have a basic model class of nodes to be used in Bootstrap node.
+NodeModel.java has all the necessary datastructure for the Node.
+Neighbors.java contains the neighbor details.
+PeerNodeImpl class contains all the methods which are implemented from IPeerNode
+IBootstrap is bootstrap interface
+BootStrapServerImpl implements bootstrap server and has basic operations.
+
+Servercontroller controls bootstrap
+PeerNodeController felicitates user operations.
+
+Bootstrap
+Join:
+
+For join first the bootstrap list is checked, if it is empty this 1st NODE. 
+ To Join CAN a new peer first needs to find a zone, for this whenever a join request comes handling peer will  first calculate random x and y co-ordinates and
+			It first checks if those co-ordinates are in it's own zone, if it is then it splits it's zone in half (if its zone is a square, then it split the zone vertically, 
+			if the zone is a rectangle with height greater than width, split the zone horizontally else horizontally) Move the entries of hash content of new Node zone from old node to
+			new node's hashtable, Update the neighbors, keep all the neighbors of old node in a temp list and empty it old neighbors list. Then compare each entry from temp list to 
+			new and old node, if they are neighbors add them to new and old node's list respectively, at last add new and old nodes in each other's neighbors list.
+			
+			
+
+Route:
+ Routing using a greedy approach to move from  node to node, here we tried minimizing the distance between 
+	target co-ordinates and center of the node for greedy routing.
+	Once a node discovers that target point 
+	Step 1)check if target point is in it's zone, if not got to Step2
+	Step 2)Check Neighbors: If target co-ordinates are in neighbors, select that node and go to step1, else start routing(Step3)
+	Step 3)start routing based on greedy approach, here we tried minimizing the distance between target co-ordinates and center of the node for greedy routing.
+		   the node with least distance from target point, do it recursively once the node containing target points(file), if found found display success message and Ip address of 
+		   Node from the hash map where file is actually stored,
+
+Search: 
+	For searching a fileName is taken, once we have the file name we GET x-y co-ordinates from the same hash function, after getting the co-ordinates,
+	we need check the point location same as join and route.
+ 
+View: 
+	For view if a user passes a node we get the details from bootstrap and create a remote interface associated with node details and invoke the view function.
+	For View All, we get the list of all active nodes from bootstrap node and call view iteratively for each entry in bootstrap's node list.
+		
+Leave: Not implemented yet.
+
